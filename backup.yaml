@@ -2,7 +2,7 @@
 - hosts: rtr1
   gather_facts: no
   tasks:
-    - name: Display File Contents
+    - name: Display File Contents (No output - Ephemeral containers are a problem)
       ansible.builtin.command: "cat /tmp/backup.cfg"
       ignore_errors: True
       register: result
@@ -10,7 +10,7 @@
     - debug:
         msg: "{{ result.stdout_lines }}"
 
-    - name: Take running-config backup
+    - name: Take running-config backup (with backup_option)
       cisco.ios.ios_config:
         backup: yes
         backup_options:
@@ -19,6 +19,20 @@
 
     - name: Display File Contents
       ansible.builtin.command: "cat /tmp/backup.cfg"
+      ignore_errors: True
+      register: result
+    
+    - debug:
+        msg: "{{ result.stdout_lines }}"
+    
+    - name: Take running-config backup (without backup_option)
+      cisco.ios.ios_config:
+        backup: yes
+      ignore_errors: yes
+      register: result
+    
+    - name: Display File Contents (from auto-generated filepath)
+      ansible.builtin.command: "cat {{ result.backup_path }}"
       ignore_errors: True
       register: result
     
