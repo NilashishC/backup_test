@@ -1,5 +1,5 @@
 ---
-- hosts: ios
+- hosts: rtr1
   gather_facts: no
   tasks:
     - cisco.ios.ios_config:
