@@ -4,10 +4,12 @@
   tasks:
     - name: Display File Contents (without delegate)
       ansible.builtin.command: "cat /tmp/backup.cfg"
+      ignore_errors: True
 
     - name: Display File Contents
       ansible.builtin.command: "cat /tmp/backup.cfg"
       delegate_to: localhost
+      ignore_errors: True
 
     - name: Take running-config backup
       cisco.ios.ios_config:
@@ -18,9 +20,10 @@
     
     - name: Display File Contents (without delegate)
       ansible.builtin.command: "cat /tmp/backup.cfg"
+      ignore_errors: True
 
     - name: Display File Contents
       ansible.builtin.command: "cat /tmp/backup.cfg"
       delegate_to: localhost
-      
+      ignore_errors: True
 
