@@ -37,3 +37,11 @@
         path: "{{ backup.backup_path }}"
         line: "version 16.9"
         state: absent
+    
+    - name: Display File Contents
+      ansible.builtin.command: "cat /tmp/backup.cfg"
+      ignore_errors: True
+      register: result
+    
+    - debug:
+        msg: "{{ result.stdout_lines }}"
