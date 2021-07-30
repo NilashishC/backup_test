@@ -16,6 +16,7 @@
         backup_options:
           filename: backup.cfg
           dir_path: /tmp
+      register: backup
 
     - name: Display File Contents
       ansible.builtin.command: "cat /tmp/backup.cfg"
@@ -25,6 +26,18 @@
     - debug:
         msg: "{{ result.stdout_lines }}"
     
+    - name: remove non config lines - regexp - Part 1
+      lineinfile:
+        path: "/tmp/backup.cfg"
+        line: "Building configuration..."
+        state: absent
+
+    - name: remove non config lines - regexp - Part 2
+      lineinfile:
+        path: "{{ backup.backup_path }}"
+        line: "version 16.9"
+        state: absent
+
     - name: Take running-config backup (without backup_option)
       cisco.ios.ios_config:
         backup: yes
