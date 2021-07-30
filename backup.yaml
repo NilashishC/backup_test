@@ -37,20 +37,3 @@
         path: "{{ backup.backup_path }}"
         line: "version 16.9"
         state: absent
-
-    - name: Take running-config backup (without backup_option)
-      cisco.ios.ios_config:
-        backup: yes
-      ignore_errors: yes
-      register: result
-    
-    - debug:
-        msg: "{{ result.backup_path }}"
-    
-    - name: Display File Contents (from auto-generated filepath)
-      ansible.builtin.command: "cat {{ result.backup_path }}"
-      ignore_errors: True
-      register: result
-    
-    - debug:
-        msg: "{{ result.stdout_lines }}"
