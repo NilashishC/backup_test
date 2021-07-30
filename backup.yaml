@@ -1,0 +1,12 @@
+---
+- hosts: ios
+  gather_facts: no
+  tasks:
+    - cisco.ios.ios_config:
+        backup: yes
+        backup_options:
+          filename: backup.cfg
+          dir_path: /tmp
+
+    - pause:
+        minutes: 10
