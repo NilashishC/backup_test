@@ -2,11 +2,25 @@
 - hosts: rtr1
   gather_facts: no
   tasks:
-    - cisco.ios.ios_config:
+    - name: Display File Contents (without delegate)
+      ansible.builtin.command: "cat /tmp/backup.cfg"
+
+    - name: Display File Contents
+      ansible.builtin.command: "cat /tmp/backup.cfg"
+      delegate_to: localhost
+
+    - name: Take running-config backup
+      cisco.ios.ios_config:
         backup: yes
         backup_options:
           filename: backup.cfg
           dir_path: /tmp
+    
+    - name: Display File Contents (without delegate)
+      ansible.builtin.command: "cat /tmp/backup.cfg"
 
-    - pause:
-        minutes: 10
+    - name: Display File Contents
+      ansible.builtin.command: "cat /tmp/backup.cfg"
+      delegate_to: localhost
+      
+
